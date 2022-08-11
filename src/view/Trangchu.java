@@ -1,0 +1,297 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package view;
+
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import model.dao.ListDao;
+import model.dto.HoKhau;
+import model.dto.Lists;
+
+/**
+ *
+ * @author Admin
+ */
+public class Trangchu extends javax.swing.JPanel {
+
+    ListDao listsDao = new ListDao();
+    DefaultTableModel model = new DefaultTableModel();
+    XemChiTiet xct = new XemChiTiet();
+
+    /**
+     * Creates new form NewJPanel
+     */
+
+    public JButton getjBback() {
+        return jBback;
+
+    }
+
+    public XemChiTiet getXct() {
+        return xct;
+    }
+
+    public JButton getjBxem() {
+        return jBxem;
+    }
+
+    
+
+    
+
+    public Trangchu() {
+        initComponents();
+        jScrollPane1.setSize(800, 400);
+        lists.setSize(800, 400);
+        this.setVisible(true);
+
+        get();
+        jBback.addActionListener((e) -> {
+
+            JBbackAction();
+            
+          
+        });
+//        jBxem.addActionListener((e) -> {
+//            jjBxemAction();
+//            
+//        });
+    }
+
+    public void get() {
+
+        ArrayList<Object> list = listsDao.get();
+        Object colunm[] = new Object[]{"ID", "TÊN", "SỐ TIỀN", "LOẠI"};
+        lists.setModel(model);
+        model.setColumnIdentifiers(colunm);
+        model.setRowCount(0);
+        for (Object temp : list) {
+            Lists l = (Lists) temp;
+            String data[] = new String[4];
+            data[0] = String.valueOf(l.getId());
+            data[1] = l.getNames();
+            data[2] = String.valueOf(l.getMoney());
+            data[3] = l.getType();
+            model.addRow(data);
+        }
+
+    }
+
+    public void jBActionLis() {
+        ArrayList<Object> list = listsDao.get();
+        int i = lists.getSelectedRow();
+        System.out.println(i);
+        Lists temp = (Lists) list.get(i);
+        System.out.println(temp.toString());
+        JFrame jf = new JFrame();
+        jf.setTitle("trangchu/chinhsua");
+        jf.setBounds(500, 500, 400, 300);
+        jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        CHINHSUA chinhsua = new CHINHSUA(temp.getId(), temp.getNames(), temp.getMoney(), temp.getType());
+        chinhsua.setBounds(500, 500, 400, 300);
+        jf.add(chinhsua);
+        jf.setVisible(true);
+        chinhsua.getjBback().addActionListener((e) -> {
+           jf.setVisible(false);
+        });
+        chinhsua.getjBok().addActionListener((e) -> {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"ok","Thành Công",JOptionPane.OK_OPTION); 
+        });
+
+    }
+    public Lists click(){
+         ArrayList<Object> list = listsDao.get();
+        int i = lists.getSelectedRow();
+        System.out.println(i);
+        Lists temp = (Lists) list.get(i);
+        return temp;
+    }
+
+    public void JBbackAction() {
+        this.setVisible(false);
+        LoginUI loginUI = new LoginUI();
+        loginUI.setBounds(50, 200, 800, 400);
+        loginUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        loginUI.setVisible(true);
+
+//        System.exit(0);
+    }
+
+    public void jjBxemAction() {
+         ArrayList<Object> list = listsDao.get();
+        int i = lists.getSelectedRow();
+        System.out.println(i);
+        Lists temp = (Lists) list.get(i);
+        System.out.println(temp.toString());
+//        xct = new XemChiTiet(temp.getId(), temp.getNames());
+        xct.setIdList(temp.getId());
+        xct.setName(temp.getNames());
+        xct.get();
+        xct.setBounds(0, 0, 800, 400);
+        JFrame jf = new JFrame();
+        jf.setTitle(xct.getName());
+        jf.setBounds(50, 50, 850, 450);
+        jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jf.add(xct);
+        jf.setVisible(true);
+        xct.getjBback().addActionListener((e) -> {
+               jf.setVisible(false);
+        });
+        xct.getjBxemchitiet().addActionListener((e) -> {
+             jf.setVisible(false);
+        });
+        xct.getXctmh().getjBback().addActionListener((e) -> {
+             jf.setVisible(true);
+        });
+        xct.getjBchinhsua().addActionListener((e) -> {
+             jf.setVisible(false);
+        });
+        xct.getS().getjBback().addActionListener((e) -> {
+             jf.setVisible(true);
+        });
+        xct.getjBthem().addActionListener((e) -> {
+             jf.setVisible(false);
+        });
+    } 
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lists = new javax.swing.JTable();
+        jBback = new javax.swing.JButton();
+        jBchinhsua = new javax.swing.JButton();
+        jBxem = new javax.swing.JButton();
+
+        lists.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "TÊN", "SỐ TIỀN", "LOẠI"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(lists);
+
+        jBback.setText("QUAY LẠI");
+
+        jBchinhsua.setText("CHỈNH SỬA");
+        jBchinhsua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBchinhsuaMouseClicked(evt);
+            }
+        });
+
+        jBxem.setText("XEM");
+        jBxem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBxemMouseClicked(evt);
+            }
+        });
+        jBxem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBxemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBback)
+                .addGap(253, 253, 253)
+                .addComponent(jBchinhsua)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBxem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBback)
+                    .addComponent(jBchinhsua)
+                    .addComponent(jBxem))
+                .addGap(31, 31, 31))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jBxemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBxemActionPerformed
+        // TODO add your handling code here:
+//        ArrayList<Object> list = listsDao.get();
+//        int i = lists.getSelectedRow();
+//        System.out.println(i);
+//        Lists temp = (Lists) list.get(i);
+//        System.out.println(temp.toString());
+//        xct = new XemChiTiet(temp.getId(), temp.getNames());
+//        JFrame jf = new JFrame();
+//        jf.setTitle(temp.getNames());
+//        jf.setBounds(500, 500, 400, 300);
+//        jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+//        CHINHSUA chinhsua = new CHINHSUA(temp.getId(), temp.getNames(), temp.getMoney(), temp.getType());
+//        chinhsua.setBounds(500, 500, 400, 300);
+//        jf.add(chinhsua);
+//        jf.setVisible(true);
+//        chinhsua.getjBback().addActionListener((e) -> {
+//           jf.setVisible(false);
+//        });
+//        chinhsua.getjBok().addActionListener((e) -> {
+//            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"ok","Thành Công",JOptionPane.OK_OPTION); 
+//        });
+    }//GEN-LAST:event_jBxemActionPerformed
+
+    private void jBchinhsuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBchinhsuaMouseClicked
+        jBActionLis();
+    }//GEN-LAST:event_jBchinhsuaMouseClicked
+
+    private void jBxemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBxemMouseClicked
+        // TODO add your handling code here:
+        jjBxemAction();
+    }//GEN-LAST:event_jBxemMouseClicked
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBback;
+    private javax.swing.JButton jBchinhsua;
+    private javax.swing.JButton jBxem;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable lists;
+    // End of variables declaration//GEN-END:variables
+}
